@@ -22,8 +22,12 @@ passport.use('local', new LocalStrategy({
             }
             if(!bCrypt.compareSync(Password, user[0].Password)){
                 return cb(null, false, {message: 'Mật khẩu không đúng!'});
-            }  
-            return cb(null, user[0], {message: 'Đăng nhập thành công'});
+            }
+            const payload = {
+                ID: user[0].ID,
+                FullName: user[0].FullName 
+            }
+            return cb(null, payload, {message: 'Đăng nhập thành công'});
         }).catch(err=>{
             console.log(err)
             return cb(err);
@@ -35,8 +39,8 @@ passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey   : 'your_jwt_secret'
     },
-    function (jwtPayload, cb) {
-        personModel.getPersonWithID(jwtPayload.ID).then(r=>{
+    function (payload, cb) {
+        personModel.getPersonWithID(payload.ID).then(r=>{
             return cb(null,user);
         }).catch(err=>{
             return cb(err);

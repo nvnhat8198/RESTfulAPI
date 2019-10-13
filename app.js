@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // passport.authenticate('jwt', {session: false})
-app.use('/', indexRouter);
+app.use('/me', indexRouter);
 app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
