@@ -10,7 +10,6 @@ const personModel = require('../model/person.model');
 const bCrypt = require('bcrypt');
 const saltRounds = 10;
 module.exports = function(passport) {
-
 passport.use('local', new LocalStrategy({
         usernameField: 'Email',
         passwordField: 'Password'
@@ -35,12 +34,12 @@ passport.use('local', new LocalStrategy({
     }
 ));
 
-passport.use('jwt', new JWTStrategy({
+passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey   : 'your_jwt_secret'
     },
-    function (payload, cb) {
-        personModel.getPersonWithID(payload.ID).then(r=>{
+    function (jwt_payload, cb) {
+        personModel.getPersonWithID(jwt_payload.ID).then(user=>{
             return cb(null,user);
         }).catch(err=>{
             return cb(err);

@@ -20,7 +20,6 @@ router.post('/login', function(req, res, next){
             user   : user
         });
     }
-    console.log(user);
    req.login(user, {session: false}, (err) => {
        if (err) {
            res.send(err);
@@ -30,7 +29,6 @@ router.post('/login', function(req, res, next){
     });
   })(req, res);
 });
-
 
 router.post('/register', function(req, res, next){
     var FullName = req.body.FullName;
