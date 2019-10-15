@@ -7,8 +7,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy   = passportJWT.Strategy;
 
 const personModel = require('../model/person.model');
-const bCrypt = require('bcrypt');
-const saltRounds = 10;
+// const bCrypt = require('bcrypt');
+// const saltRounds = 10;
 module.exports = function(passport) {
 passport.use('local', new LocalStrategy({
         usernameField: 'Email',
@@ -19,7 +19,8 @@ passport.use('local', new LocalStrategy({
             if(!user.length){
                 return cb(null, false, {message: 'Email không tồn tại!'});
             }
-            if(!bCrypt.compareSync(Password, user[0].Password)){
+            // if(!bCrypt.compareSync(Password, user[0].Password)){
+            if(Password != user[0].Password){
                 return cb(null, false, {message: 'Mật khẩu không đúng!'});
             }
             const payload = {

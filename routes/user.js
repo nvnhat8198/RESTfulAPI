@@ -3,8 +3,8 @@ var router = express.Router();
 const personModel = require('../model/person.model');
 
 const passport = require('passport');
-const bCrypt = require('bcrypt');
-const saltRounds = 10;
+// const bCrypt = require('bcrypt');
+// const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
 /* GET users listing. */
@@ -33,7 +33,8 @@ router.post('/login', function(req, res, next){
 router.post('/register', function(req, res, next){
     var FullName = req.body.FullName;
     var Email = req.body.Email;
-    var Password = bCrypt.hashSync(req.body.Password, bCrypt.genSaltSync(saltRounds));
+    // var Password = bCrypt.hashSync(req.body.Password, bCrypt.genSaltSync(saltRounds));
+    var Password = req.body.Password;
     personModel.getPersonWithEmail(Email).then(r=>{
       if(r.length){
         res.send('Email đã tồn tại, đăng kí không thành công!');
