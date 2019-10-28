@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
+var home = require('./routes/home');
 // var cors = require('cors');
 var app = express();
 
@@ -36,6 +37,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/',home);
 app.use('/me',passport.authenticate('jwt', { session: false }), indexRouter);
 app.use('/user', usersRouter);
 
