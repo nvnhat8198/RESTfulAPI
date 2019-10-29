@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 const jwt = require('jsonwebtoken');
 
+const personModel = require('../model/person.model');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.send('API Game Caro');
@@ -46,5 +47,53 @@ router.get('/auth/google/callback', passport.authenticate('google', {}), (req, r
 
 });
 
+
+router.post('/changepassword', function(req, res, next){
+  var ID = req.body.ID;
+  var curPass = req.body.CurPassword;
+  var newPass = req.body.NewPassword;
+  personModel.getPersonWithID(ID).then(user=>{
+    if(!user.length){
+      res.send('Tài khoản không tồn tại!');
+    }
+    else{
+      console.log(user[0]);
+      if(curPass!=user[0].Password){
+        res.send('Mật khẩu hiện tại nhập không đúng');
+      }
+      else{
+        personModel.updatePasswordWithID(ID,newPass);
+        res.send('Đổi mật khẩu thành công!');
+      }
+    }
+  }).catch(err=>{
+    console.log(err);
+  })
+})
+
+
+router.post('/changeinfo', function(req, res, next){
+  var ID = req.body.ID;
+  var FullName = req.body.FullName;
+  var Email = req.body.Email;
+  personModel.getPersonWithID(ID).then(user=>{
+    if(!user.length){
+      res.send('Tài khoản không tồn tại!');
+    }
+    else{
+      personModel.getPersonWithEmail(Email).then(r=>{
+        if(r.length && user[0].ID != r[0].ID){
+          res.send('Email vừa nhập đã tồn tại!');
+        }
+        else{
+          personModel.updateEmailAndFullNameWithID(ID, Email, FullName);
+          res.send('Cập nhật thông tin thành công!');
+        }
+      })
+    }
+  }).catch(err=>{
+    console.log(err);
+  })
+})
 
 module.exports = router;

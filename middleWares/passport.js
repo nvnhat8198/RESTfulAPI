@@ -74,7 +74,7 @@ module.exports = function(passport) {
     function (token, refreshToken, profile, cb) {
         console.log(profile);
         const user = {
-            ID: profile.id,
+            ID: 0,
             FullName: profile._json.name 
         }
         return cb(null, user);
@@ -91,7 +91,7 @@ module.exports = function(passport) {
             console.log(profile);
 
             const user = {
-                ID: profile.id,
+                ID: 0,
                 FullName: profile.displayName
             }
             return cb(null, user);
