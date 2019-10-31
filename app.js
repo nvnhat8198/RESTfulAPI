@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
@@ -33,10 +33,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 app.use(cors())
+
+// app.use(bodyParser.json({limit: '50mb'}));
+// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+app.use( bodyParser.json({limit: '10mb', extended: true}) );
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -96,4 +96,23 @@ router.post('/changeinfo', function(req, res, next){
   })
 })
 
+
+router.post('/changeavatar', function(req, res, next){
+  var ID = req.body.ID;
+  var Avatar = req.body.Avatar;
+  personModel.getPersonWithID(ID).then(user=>{
+    if(!user.length){
+      res.send('Tài khoản không tồn tại!');
+    }
+    else{
+      personModel.updateAvatarWithID(ID, Avatar);
+      res.send('Đổi Avatar thành công!');
+    }
+  }).catch(err=>{
+    console.log(err);
+  })
+})
+
+
+
 module.exports = router;

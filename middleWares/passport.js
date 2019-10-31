@@ -41,7 +41,8 @@ module.exports = function(passport) {
                 const payload = {
                     ID: user[0].ID,
                     FullName: user[0].FullName, 
-                    Email: user[0].Email
+                    Email: user[0].Email,
+                    Avatar: user[0].Avatar
                 }
                 return cb(null, payload, {message: 'Đăng nhập thành công'});
             }).catch(err=>{

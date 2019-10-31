@@ -1,6 +1,6 @@
 var orm = require('../config/orm');
 module.exports ={
-    addPerson:(FullName,Email,Password)=>{
+    addPerson:(FullName, Email, Password)=>{
         return orm.selectAll(`call AddPerson_New('${FullName}','${Email}','${Password}')`);
     },   
     getPersonWithEmail:(Email)=>{
@@ -17,5 +17,8 @@ module.exports ={
     },
     updateInfoWithID:(ID, Email, FullName, Avatar)=>{
         return orm.selectAll(`call UpdateInfoWithID(${ID},'${Email}','${FullName}','${Avatar}')`);
+    },
+    updateAvatarWithID:(ID, Avatar)=>{
+        return orm.selectAll(`call UpdateAvatarWithID(${ID},'${Avatar}')`);
     }
 }
